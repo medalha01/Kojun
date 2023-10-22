@@ -2,6 +2,12 @@ object Main extends App {
   import scala.io.StdIn.readLine
   import data_structures.data.Tabuleiros._
 
+  val tabuleiroMap = Map(
+    6 -> (getValoresTabuleiro6x6, getRegioesTabuleiro6x6),
+    8 -> (getValoresTabuleiro8x8, getRegioesTabuleiro8x8),
+    10 -> (getValoresTabuleiro10x10, getRegioesTabuleiro10x10)
+  )
+
   println(
     "Digite o tamanho do tabuleiro que quer que seja resolvido 6, 8 ou 10:"
   )
@@ -9,20 +15,12 @@ object Main extends App {
   val tamanho = input.toInt
 
   println("\n")
-  tamanho match {
-    case 6 =>
-      val resultadoIO =
-        kojun(getValoresTabuleiro6x6, getRegioesTabuleiro6x6, tamanho)
+
+  tabuleiroMap.get(tamanho) match {
+    case Some((valores, regioes)) =>
+      val resultadoIO = kojun(valores, regioes, tamanho)
       println(resultadoIO)
-    case 8 =>
-      val resultadoIO =
-        kojun(getValoresTabuleiro8x8, getRegioesTabuleiro8x8, tamanho)
-      println(resultadoIO)
-    case 10 =>
-      val resultadoIO =
-        kojun(getValoresTabuleiro10x10, getRegioesTabuleiro10x10, tamanho)
-      println(resultadoIO)
-    case _ =>
+    case None =>
       println(
         "Não existe um tabuleiro desse tamanho no banco. Tente novamente."
       )
