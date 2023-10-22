@@ -1,3 +1,5 @@
+package data_structures.data
+
 object Tabuleiros {
 
   // Type Definitions
