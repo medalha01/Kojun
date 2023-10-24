@@ -63,12 +63,17 @@ def tamanhoRegiao(regioesMapeadas: TabuleiroMapeado, idRegiao: Int): Int = {
 
 def formatarResultado(tabuleiroResolvido: Tabuleiro): String = {
   if (tabuleiroResolvido.isEmpty || tabuleiroResolvido.forall(_.isEmpty)) {
-    "Não há solução para esse Tabuleiro"
+    val nosolution = "Não há solução para esse Tabuleiro"
+    printf("Result: %s\n", nosolution)
   } else {
-    tabuleiroResolvido
+    val solution = tabuleiroResolvido
       .map(row => row.map(_.toString).mkString(" "))
       .mkString("\n")
+    printf("Result: %s\n", solution)
   }
+  tabuleiroResolvido
+    .map(row => row.map(_.toString).mkString(" "))
+    .mkString("\n")
 }
 
 def verificarColunaRegiao(
