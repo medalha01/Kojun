@@ -769,3 +769,15 @@ WARNING: Unmatched cancel notification for request id 1229
 2023.10.24 15:43:41 INFO  time: compiled root in 0.82s[0m
 2023.10.24 15:43:44 INFO  compiling root (3 scala sources)[0m
 2023.10.24 15:43:45 INFO  time: compiled root in 1.49s[0m
+2023.10.24 15:52:07 INFO  compiling root-test (1 scala source)[0m
+2023.10.24 15:52:07 INFO  time: compiled root-test in 40ms[0m
+2023.10.24 15:52:07 INFO  compiling root-test (1 scala source)[0m
+2023.10.24 15:52:07 INFO  time: compiled root-test in 43ms[0m
+2023.10.24 15:52:07 INFO  compiling root (1 scala source)[0m
+2023.10.24 15:52:07 INFO  time: compiled root in 0.48s[0m
+2023.10.24 15:53:15 INFO  compiling root (1 scala source)[0m
+Oct 24, 2023 3:53:16 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1517
+2023.10.24 15:53:15 INFO  time: compiled root in 0.61s[0m
+Oct 24, 2023 3:53:16 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1518

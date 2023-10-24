@@ -36,14 +36,11 @@ def mapearRegioes(
     regioesMapeadas: TabuleiroMapeado,
     tamanho: Int
 ): TabuleiroMapeado = {
-  val coordenadas = for {
-    i <- 0 until tamanho
-    j <- 0 until tamanho
-  } yield (i, j)
-
-  coordenadas.foldLeft(regioesMapeadas) { (acc, coord) =>
+  val coordenadas =
+    (0 until tamanho).flatMap(i => (0 until tamanho).map(j => (i, j)))
+  coordenadas.foldLeft(regioesMapeadas)((acc, coord) =>
     mapearRegiao(regioesTabuleiro, coord, acc)
-  }
+  )
 }
 
 def qtdeRegioes(regioesTabuleiro: Tabuleiro): Int = {
@@ -65,10 +62,12 @@ def tamanhoRegiao(regioesMapeadas: TabuleiroMapeado, idRegiao: Int): Int = {
 }
 
 def formatarResultado(tabuleiroResolvido: Tabuleiro): String = {
-  if (tabuleiroResolvido == null || tabuleiroResolvido.flatten.forall(_ == 0)) {
+  if (tabuleiroResolvido.isEmpty || tabuleiroResolvido.forall(_.isEmpty)) {
     "Não há solução para esse Tabuleiro"
   } else {
-    tabuleiroResolvido.map(_.mkString(" ")).mkString("\n")
+    tabuleiroResolvido
+      .map(row => row.map(_.toString).mkString(" "))
+      .mkString("\n")
   }
 }
 
