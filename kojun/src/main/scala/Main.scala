@@ -1,7 +1,7 @@
 object Main extends App {
   import scala.io.StdIn.readLine
   import data_structures.data.Tabuleiros._
-  import kojun.solve.kojun
+  import kojun.solve.KojunSolver
 
   val tabuleiroMap = Map(
     6 -> (getValoresTabuleiro6x6, getRegioesTabuleiro6x6),
@@ -19,7 +19,7 @@ object Main extends App {
 
   tabuleiroMap.get(tamanho) match {
     case Some((valores, regioes)) =>
-      val resultadoIO = kojun(valores, regioes, tamanho)
+      val resultadoIO = KojunSolver.kojun(valores, regioes, tamanho)
       println(resultadoIO)
     case None =>
       println(
