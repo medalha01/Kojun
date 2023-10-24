@@ -1,12 +1,14 @@
 package data_structures.data
 
+import cats.instances.int
+
 object Tabuleiros {
 
   // Type Definitions
-  type Tabuleiro = Matriz[Valor]
-  type TabuleiroMapeado = Matriz[Vetor]
-  type Matriz[Elementos] = List[Linha[Elementos]]
-  type Linha[Elementos] = List[Elementos]
+  type Tabuleiro = List[List[Valor]]
+  type TabuleiroMapeado = List[List[Vetor]]
+  type Matriz[A] = List[List[A]]
+  type Linha[A] = List[A]
   type Valor = Int
   type Vetor = (Int, Int)
 
@@ -14,7 +16,7 @@ object Tabuleiros {
   // Tabuleiros taken from the website: https://www.janko.at/Raetsel/Kojun/index.htm
 
   // Tabuleiro 6x6
-  val getValoresTabuleiro6x6: Tabuleiro = List(
+  val getValoresTabuleiro6x6: List[List[Int]] = List(
     List(0, 0, 0, 0, 0, 2),
     List(2, 0, 0, 5, 0, 0),
     List(0, 0, 3, 0, 0, 4),
@@ -23,7 +25,7 @@ object Tabuleiros {
     List(0, 0, 3, 0, 2, 5)
   )
 
-  val getRegioesTabuleiro6x6: Tabuleiro = List(
+  val getRegioesTabuleiro6x6: List[List[Int]] = List(
     List(0, 1, 2, 2, 3, 3),
     List(0, 1, 4, 3, 3, 3),
     List(0, 0, 4, 4, 4, 5),
@@ -33,7 +35,7 @@ object Tabuleiros {
   )
 
   // Tabuleiro 8x8
-  val getValoresTabuleiro8x8: Tabuleiro = List(
+  val getValoresTabuleiro8x8: List[List[Int]] = List(
     List(2, 0, 7, 0, 3, 0, 0, 0),
     List(0, 0, 0, 0, 0, 0, 1, 0),
     List(0, 4, 0, 4, 7, 6, 0, 0),
@@ -44,7 +46,7 @@ object Tabuleiros {
     List(1, 4, 0, 0, 0, 0, 3, 0)
   )
 
-  val getRegioesTabuleiro8x8: Tabuleiro = List(
+  val getRegioesTabuleiro8x8: List[List[Int]] = List(
     List(0, 0, 0, 1, 1, 1, 2, 2),
     List(0, 0, 3, 3, 4, 4, 2, 5),
     List(6, 0, 7, 3, 8, 8, 8, 5),
@@ -56,7 +58,7 @@ object Tabuleiros {
   )
 
   // Tabuleiro 10x10
-  val getValoresTabuleiro10x10: Tabuleiro = List(
+  val getValoresTabuleiro10x10: List[List[Int]] = List(
     List(0, 4, 3, 0, 2, 5, 0, 0, 0, 0),
     List(0, 2, 0, 0, 0, 4, 2, 0, 3, 0),
     List(0, 0, 0, 1, 4, 0, 0, 1, 0, 0),
@@ -69,7 +71,7 @@ object Tabuleiros {
     List(2, 1, 0, 0, 3, 0, 1, 0, 3, 4)
   )
 
-  val getRegioesTabuleiro10x10: Tabuleiro = List(
+  val getRegioesTabuleiro10x10: List[List[Int]] = List(
     List(0, 1, 1, 1, 1, 1, 2, 3, 4, 4),
     List(0, 0, 1, 1, 2, 2, 2, 3, 3, 5),
     List(0, 0, 6, 6, 6, 7, 8, 3, 3, 5),

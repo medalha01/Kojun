@@ -8,14 +8,13 @@ type TabuleiroMapeado = List[List[Vetor]]
 type Vetor = (Int, Int)
 type Valor = Int
 
-def mapearElemento(
-    n: Int,
-    valorRegiao: regiaoMapeada,
-    linha: TabuleiroMapeado
-): List[Int] = {
-  linha.zipWithIndex.map { case (element, index) =>
-    if (index == n) valorRegiao
-    else element
+def mapearElemento[A](n: Int, valorRegiao: A, linha: List[A]): List[A] = {
+  linha match {
+    case Nil => Nil // Base case: Empty list, return an empty list
+    case _ if n == 0 =>
+      valorRegiao :: linha.tail // Replace the element at index 0
+    case x :: xs =>
+      x :: mapearElemento(n - 1, valorRegiao, xs) // Recursive case
   }
 }
 
@@ -26,7 +25,7 @@ def mapearRegiao(
 ): TabuleiroMapeado = {
   val (i, j) = vetor
   val idRegiao = regioesTabuleiro(i)(j)
-  val regiaoMapeada = vetor +: regioesMapeadas(idRegiao)
+  val regiaoMapeada = (i, j) :: regioesMapeadas(idRegiao)
   val regiaoMapeadaAtualizada =
     mapearElemento(idRegiao, regiaoMapeada, regioesMapeadas)
   regiaoMapeadaAtualizada
