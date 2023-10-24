@@ -1,6 +1,7 @@
 object Main extends App {
   import scala.io.StdIn.readLine
   import data_structures.data.Tabuleiros._
+  import kojun.solve.kojun
 
   val tabuleiroMap = Map(
     6 -> (getValoresTabuleiro6x6, getRegioesTabuleiro6x6),
