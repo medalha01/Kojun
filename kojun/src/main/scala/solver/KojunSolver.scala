@@ -26,7 +26,7 @@ class MyKojunSolver(valueMatrix: Matrix[Int], regionMatrix: Matrix[String]) {
       row <- 0 until regionMatrix.numRows
       col <- 0 until regionMatrix.numCols
     } {
-      val regionValue = regionMatrix.getMatrixValue((row, col))
+      val regionValue = regionMatrix.getValueAt((row, col))
       regionMapping.getOrElseUpdate(regionValue, ListBuffer()) += ((row, col))
     }
 
@@ -49,7 +49,7 @@ class MyKojunSolver(valueMatrix: Matrix[Int], regionMatrix: Matrix[String]) {
     // Desconstrução da posição em linha e coluna
     val (row, col) = position
     // Obter o valor da região na posição atual
-    val regionValue = regionMatrix.getMatrixValue(position)
+    val regionValue = regionMatrix.getValueAt(position)
     // Obter todas as posições na mesma região
     val regionPositions = regionMapping(regionValue)
 
@@ -59,29 +59,29 @@ class MyKojunSolver(valueMatrix: Matrix[Int], regionMatrix: Matrix[String]) {
       (row + 1, col),
       (row, col - 1),
       (row, col + 1)
-    ).filter(valueMatrix.isValidPosition).map(valueMatrix.getMatrixValue)
+    ).filter(valueMatrix.isValidPosition).map(valueMatrix.getValueAt)
 
     // Validar se o valor é menor que o da posição acima dentro da mesma região, se aplicável
     val isTopValid =
       if (
         valueMatrix.isValidPosition((row - 1, col)) && regionMatrix
-          .getMatrixValue((row - 1, col)) == regionValue
+          .getValueAt((row - 1, col)) == regionValue
       ) {
-        value < valueMatrix.getMatrixValue((row - 1, col))
+        value < valueMatrix.getValueAt((row - 1, col))
       } else true
 
     // Validar se o valor é maior que o da posição abaixo dentro da mesma região, se aplicável
     val isBottomValid =
       if (
         valueMatrix.isValidPosition((row + 1, col)) && regionMatrix
-          .getMatrixValue((row + 1, col)) == regionValue
+          .getValueAt((row + 1, col)) == regionValue
       ) {
-        value > valueMatrix.getMatrixValue((row + 1, col))
+        value > valueMatrix.getValueAt((row + 1, col))
       } else true
 
     // Retornar se todas as condições de validação são atendidas
     !(
-      valueMatrix.getMatrixValue(
+      valueMatrix.getValueAt(
         position
       ) != 0 || // A posição atual deve estar vazia
         value < 1 || value > regionPositions.length || // O valor deve estar dentro do tamanho da região
@@ -89,7 +89,7 @@ class MyKojunSolver(valueMatrix: Matrix[Int], regionMatrix: Matrix[String]) {
           value
         ) || // O valor não deve ser igual a nenhum valor adjacente
         regionPositions
-          .map(valueMatrix.getMatrixValue)
+          .map(valueMatrix.getValueAt)
           .contains(value) || // O valor deve ser único na região
         !isTopValid || // Validação do topo
         !isBottomValid // Validação da base
@@ -178,14 +178,14 @@ class MyKojunSolver(valueMatrix: Matrix[Int], regionMatrix: Matrix[String]) {
       solveKojun(valueMatrix, regionMatrix, (row + 1, 0), regionMapping)
     } else if (
       valueMatrix
-        .isValidPosition(position) && valueMatrix.getMatrixValue(position) != 0
+        .isValidPosition(position) && valueMatrix.getValueAt(position) != 0
     ) {
       // Se a posição atual já tiver um valor, passa para a próxima coluna
       solveKojun(valueMatrix, regionMatrix, (row, col + 1), regionMapping)
     } else {
       // Determina o tamanho máximo da região para a posição atual
       val maxRegionSize = regionMapping(
-        regionMatrix.getMatrixValue(position)
+        regionMatrix.getValueAt(position)
       ).length
       // Tenta valores de 1 até o tamanho máximo da região para a posição atual
       tryValues(
