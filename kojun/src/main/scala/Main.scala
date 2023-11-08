@@ -1,30 +1,69 @@
-object Main extends App {
-  import scala.io.StdIn.readLine
-  import data_structures.data.Tabuleiros._
-  import kojun.solve.KojunSolver
+import scala.io.Source
+import solver.MyKojunSolver
+import utils.Matrix
 
-  val tabuleiroMap = Map(
-    6 -> (getValoresTabuleiro6x6, getRegioesTabuleiro6x6),
-    8 -> (getValoresTabuleiro8x8, getRegioesTabuleiro8x8),
-    10 -> (getValoresTabuleiro10x10, getRegioesTabuleiro10x10)
-  )
+object Main {
+  def main(args: Array[String]): Unit = {
+    // Read files containing
+    // The size N of the matrix (N x N) on the first line
+    // The value matrix (occupying N lines)
+    // The region matrix (occupying N lines)
+    val filePath = "src/inputs/10x10/kojun_10.txt" // Relative path to the file
 
-  println(
-    "Digite o tamanho do tabuleiro que quer que seja resolvido 6, 8 ou 10:"
-  )
-  val input = readLine()
-  val tamanho = input.toInt
+    // Open and read the file
+    val fileContents = readFromFile(filePath)
+    var valueMatrix: List[List[Int]] = List()
+    var regionMatrix: List[List[String]] = List()
 
-  println("\n")
+    fileContents match {
+      case Some(contents) =>
+        val matrixSize = contents.head.toInt
+        // Read the value matrix (integers) and region matrix (characters)
+        valueMatrix = contents
+          .slice(1, matrixSize + 1)
+          .map(line => line.split(" ").map(_.toInt).toList)
+        regionMatrix = contents
+          .slice(matrixSize + 1, matrixSize * 2 + 1)
+          .map(line => line.split(" ").map(filterAlphabeticCharacters).toList)
 
-  tabuleiroMap.get(tamanho) match {
-    case Some((valores, regioes)) =>
-      val resultadoIO = KojunSolver.kojun(valores, regioes, tamanho)
-      println(resultadoIO)
-    case None =>
-      println(
-        "Não existe um tabuleiro desse tamanho no banco. Tente novamente."
-      )
-      Main.main(Array())
+      case None =>
+        println("An error occurred while opening the file.")
+        return
+    }
+
+    // Create matrices for values and regions
+    val valueMatrixGrid = new Matrix[Int](valueMatrix)
+    val regionMatrixGrid = new Matrix[String](regionMatrix)
+
+    // Solve the puzzle
+    val solver = new MyKojunSolver(valueMatrixGrid, regionMatrixGrid)
+    val solution = solver.solve()
+
+    // Print the solution
+    solution match {
+      case Some(solutionMatrix) =>
+        println("\nSolution:")
+        solutionMatrix.printMatrix()
+      case None =>
+        println("No solution found.")
+    }
+  }
+
+  // Function to filter alphabetic characters from a string
+  private def filterAlphabeticCharacters(str: String): String = {
+    str.filter(_.isLetter)
+  }
+
+  private def readFromFile(filePath: String): Option[List[String]] = {
+    try {
+      val source = Source.fromFile(filePath)
+      val lines = source.getLines.toList
+      source.close()
+      Some(lines)
+    } catch {
+      case e: Exception =>
+        println(s"An error occurred: ${e.getMessage}")
+        None
+    }
   }
 }
